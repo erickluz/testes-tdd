@@ -19,6 +19,5 @@ public class TesteOrdenado {
 	public void verifica() {
 		Assert.assertEquals(1, contador);
 	}
-	
-	
+
 }
