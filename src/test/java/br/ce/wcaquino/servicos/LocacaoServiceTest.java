@@ -4,11 +4,12 @@ import static br.ce.wcaquino.utils.DataUtils.isMesmaData;
 import static br.ce.wcaquino.utils.DataUtils.obterDataComDiferencaDias;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 import java.util.Date;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -28,6 +29,16 @@ public class LocacaoServiceTest {
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
 
+	@Before
+	public void setup() {
+		System.out.println("Before");
+	}
+	
+	@After
+	public void tearDown() {
+		System.out.println("After");
+	}
+	
 	@Test
 	public void testeLocacao() throws Exception {
 		// cenario
@@ -35,6 +46,8 @@ public class LocacaoServiceTest {
 		Usuario usuario = new Usuario("Usuario 1");
 		Filme filme = new Filme("Filme 1", 1, 5.0);
 
+		System.out.println("Teste!");
+		
 		// acao
 		Locacao locacao = service.alugarFilme(usuario, filme);
 
@@ -67,8 +80,10 @@ public class LocacaoServiceTest {
 		try {
 			service.alugarFilme(usuario, filme);
 			Assert.fail("Nao poderia funcionar"); // Nao pode funcionar com valor incorreto
-		} catch (Exception e) {
-			assertThat(e.getMessage(), is("Filme sem estoque")); // Tem que dar erro
+		} catch (FilmeSemEstoqueException e) {
+			// Tem q dar erro de filme sem estoque
+		} catch (LocadoraException e) {
+			Assert.fail("Nao deveria dar erro de Locadora"); // Nao pode funcionar com valor incorreto
 		}
 
 		filme = new Filme("Filme 1", 1, 5.0);
@@ -88,8 +103,7 @@ public class LocacaoServiceTest {
 		Usuario usuario = new Usuario("Usuario 1");
 		Filme filme = new Filme("Filme 1", 0, 5.0);
 
-		exception.expect(Exception.class);
-		exception.expectMessage("Filme sem estoque");
+		exception.expect(FilmeSemEstoqueException.class);
 
 		// acao
 		service.alugarFilme(usuario, filme);
