@@ -30,7 +30,7 @@ public class LocacaoService {
 				throw new FilmeSemEstoqueException();
 			}
 		}
-				
+
 		Locacao locacao = new Locacao();
 		locacao.setFilmes(filmes);
 		locacao.setUsuario(usuario);
