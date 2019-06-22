@@ -8,8 +8,10 @@ import static org.hamcrest.CoreMatchers.is;
 import java.util.Date;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -23,6 +25,9 @@ import br.ce.wcaquino.exceptions.LocadoraException;
 
 public class LocacaoServiceTest {
 
+	private LocacaoService service;
+	private static Integer i = 0;
+	
 	@Rule
 	public ErrorCollector error = new ErrorCollector();
 
@@ -31,7 +36,8 @@ public class LocacaoServiceTest {
 
 	@Before
 	public void setup() {
-		System.out.println("Before");
+		System.out.println("Before, contador:" + (i++));
+		service = new LocacaoService();
 	}
 	
 	@After
@@ -39,10 +45,19 @@ public class LocacaoServiceTest {
 		System.out.println("After");
 	}
 	
+	@BeforeClass
+	public static void setupClass() {
+		System.out.println("Before Class");
+	}
+	
+	@AfterClass
+	public static void tearDownClass() {
+		System.out.println("After Class");
+	}
+	
 	@Test
 	public void testeLocacao() throws Exception {
 		// cenario
-		LocacaoService service = new LocacaoService();
 		Usuario usuario = new Usuario("Usuario 1");
 		Filme filme = new Filme("Filme 1", 1, 5.0);
 
@@ -61,7 +76,6 @@ public class LocacaoServiceTest {
 	@Test(expected = FilmeSemEstoqueException.class) // Forma mais elegante e mais especifica
 	public void testeFilmeSemEstoque() throws Exception {
 		// cenario
-		LocacaoService service = new LocacaoService();
 		Usuario usuario = new Usuario("Usuario 1");
 		Filme filme = new Filme("Filme 1", 0, 5.0);
 		// acao
@@ -72,7 +86,6 @@ public class LocacaoServiceTest {
 			// ERROS ESPECIFICAMENTE)
 	public void testeFilmeSemEstoque2() {
 		// scenario
-		LocacaoService service = new LocacaoService();
 		Usuario usuario = new Usuario("Usuario 1");
 		Filme filme = new Filme("Filme 1", 0, 5.0);
 
@@ -99,7 +112,6 @@ public class LocacaoServiceTest {
 	@Test // Uma forma diferente de se testar
 	public void testeFilmeSemEstoqu3() throws Exception {
 		// cenario
-		LocacaoService service = new LocacaoService();
 		Usuario usuario = new Usuario("Usuario 1");
 		Filme filme = new Filme("Filme 1", 0, 5.0);
 
@@ -112,7 +124,6 @@ public class LocacaoServiceTest {
 	@Test
 	public void testeLocacaoUsuarioVazio() {
 		// scenario
-		LocacaoService service = new LocacaoService();
 		Filme filme = new Filme("Filme 1", 1, 5.0);
 
 		try {
@@ -139,7 +150,6 @@ public class LocacaoServiceTest {
 	
 	@Test
 	public void testeLocacaoFilmeVazio() {
-		LocacaoService service = new LocacaoService();
 		Usuario usuario = new Usuario("Usuario 1");
 		
 		try {
