@@ -1,7 +1,6 @@
 package br.ce.wcaquino.servicos;
 
-import static br.ce.wcaquino.utils.DataUtils.adicionarDias;
-
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +9,7 @@ import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
 import br.ce.wcaquino.exceptions.FilmeSemEstoqueException;
 import br.ce.wcaquino.exceptions.LocadoraException;
+import br.ce.wcaquino.utils.DataUtils;
 
 public class LocacaoService {
 	
@@ -36,15 +36,33 @@ public class LocacaoService {
 		locacao.setUsuario(usuario);
 		locacao.setDataLocacao(new Date());
 
-		filmes.forEach((filme) -> {
-			valor += filme.getPrecoLocacao();
-		});
+		
+		
+		double valorFilme = 0;
+		for (int i=0; i<filmes.size();i++) {
+			valorFilme = filmes.get(i).getPrecoLocacao();
+			
+			if (i == 2) {
+				valorFilme = valorFilme * 0.75;
+			}else if(i == 3) {
+				valorFilme = valorFilme * 0.50;
+			}else if(i == 4) {
+				valorFilme = valorFilme * 0.25;
+			} else if(i >= 5) {
+				valorFilme = 0; 
+			}
+			
+			valor += valorFilme;
+		}
 		
 		locacao.setValor(valor);
 		
 		//Entrega no dia seguinte
 		Date dataEntrega = new Date();
-		dataEntrega = adicionarDias(dataEntrega, 1);
+		dataEntrega = DataUtils.adicionarDias(dataEntrega, 1);
+		if (DataUtils.verificarDiaSemana(dataEntrega, Calendar.SUNDAY)) {
+			dataEntrega = DataUtils.adicionarDias(dataEntrega, 1);
+		}
 		locacao.setDataRetorno(dataEntrega);
 		
 		//Salvando a locacao...	
