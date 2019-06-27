@@ -4,7 +4,6 @@ import static br.ce.wcaquino.utils.DataUtils.isMesmaData;
 import static br.ce.wcaquino.utils.DataUtils.obterDataComDiferencaDias;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -183,69 +182,69 @@ public class LocacaoServiceTest {
 
 	}
 
-	@Test
-	public void devePagar75PctNoFilme() throws LocadoraException, FilmeSemEstoqueException {
-		// scenario
-		Usuario usuario = new Usuario("usuario 1");
-		List<Filme> filmes = Arrays.asList(new Filme("filme1", 2, 4.0), new Filme("filme2", 2, 4.0),
-				new Filme("filme3", 2, 4.0));
-
-		// action
-		Locacao resultado = service.alugarFilme(usuario, filmes);
-
-		// verificacao
-		// 4+4+3=11
-		assertThat(resultado.getValor(), is(11.0));
-	}
-
-	@Test
-	public void devePagar50PctNoFilme() throws LocadoraException, FilmeSemEstoqueException {
-		// scenario
-		Usuario usuario = new Usuario("usuario 1");
-		List<Filme> filmes = Arrays.asList(new Filme("filme1", 2, 4.0), new Filme("filme2", 2, 4.0),
-				new Filme("filme3", 2, 4.0), new Filme("filme4", 2, 4.0));
-
-		// action
-		Locacao resultado = service.alugarFilme(usuario, filmes);
-
-		// verificacao
-		// 4+4+3+2=14
-		assertThat(resultado.getValor(), is(13.0));
-
-	}
-
-	@Test
-	public void devePagar25PctNoFilme() throws LocadoraException, FilmeSemEstoqueException {
-		// scenario
-		Usuario usuario = new Usuario("usuario 1");
-		List<Filme> filmes = Arrays.asList(new Filme("filme1", 2, 4.0), new Filme("filme2", 2, 4.0),
-				new Filme("filme3", 2, 4.0), new Filme("filme4", 2, 4.0), new Filme("filme5", 2, 4.0));
-
-		// action
-		Locacao resultado = service.alugarFilme(usuario, filmes);
-
-		// verificacao
-		// 4+4+3+2+1=14
-		assertThat(resultado.getValor(), is(14.0));
-
-	}
-
-	@Test
-	public void devePagar0PctNoFilme() throws LocadoraException, FilmeSemEstoqueException {
-		// scenario
-		Usuario usuario = new Usuario("usuario 1");
-		List<Filme> filmes = Arrays.asList(new Filme("filme1", 2, 4.0), new Filme("filme2", 2, 4.0),
-				new Filme("filme3", 2, 4.0), new Filme("filme4", 2, 4.0), new Filme("filme5", 2, 4.0),
-				new Filme("filme6", 2, 4.0));
-
-		// action
-		Locacao resultado = service.alugarFilme(usuario, filmes);
-
-		// verificacao
-		// 4+4+3+2+1+0=14
-		assertThat(resultado.getValor(), is(14.0));
-
-	}
+//	@Test
+//	public void devePagar75PctNoFilme() throws LocadoraException, FilmeSemEstoqueException {
+//		// scenario
+//		Usuario usuario = new Usuario("usuario 1");
+//		List<Filme> filmes = Arrays.asList(new Filme("filme1", 2, 4.0), new Filme("filme2", 2, 4.0),
+//				new Filme("filme3", 2, 4.0));
+//
+//		// action
+//		Locacao resultado = service.alugarFilme(usuario, filmes);
+//
+//		// verificacao
+//		// 4+4+3=11
+//		assertThat(resultado.getValor(), is(11.0));
+//	}
+//
+//	@Test
+//	public void devePagar50PctNoFilme() throws LocadoraException, FilmeSemEstoqueException {
+//		// scenario
+//		Usuario usuario = new Usuario("usuario 1");
+//		List<Filme> filmes = Arrays.asList(new Filme("filme1", 2, 4.0), new Filme("filme2", 2, 4.0),
+//				new Filme("filme3", 2, 4.0), new Filme("filme4", 2, 4.0));
+//
+//		// action
+//		Locacao resultado = service.alugarFilme(usuario, filmes);
+//
+//		// verificacao
+//		// 4+4+3+2=14
+//		assertThat(resultado.getValor(), is(13.0));
+//
+//	}
+//
+//	@Test
+//	public void devePagar25PctNoFilme() throws LocadoraException, FilmeSemEstoqueException {
+//		// scenario
+//		Usuario usuario = new Usuario("usuario 1");
+//		List<Filme> filmes = Arrays.asList(new Filme("filme1", 2, 4.0), new Filme("filme2", 2, 4.0),
+//				new Filme("filme3", 2, 4.0), new Filme("filme4", 2, 4.0), new Filme("filme5", 2, 4.0));
+//
+//		// action
+//		Locacao resultado = service.alugarFilme(usuario, filmes);
+//
+//		// verificacao
+//		// 4+4+3+2+1=14
+//		assertThat(resultado.getValor(), is(14.0));
+//
+//	}
+//
+//	@Test
+//	public void devePagar0PctNoFilme() throws LocadoraException, FilmeSemEstoqueException {
+//		// scenario
+//		Usuario usuario = new Usuario("usuario 1");
+//		List<Filme> filmes = Arrays.asList(new Filme("filme1", 2, 4.0), new Filme("filme2", 2, 4.0),
+//				new Filme("filme3", 2, 4.0), new Filme("filme4", 2, 4.0), new Filme("filme5", 2, 4.0),
+//				new Filme("filme6", 2, 4.0));
+//
+//		// action
+//		Locacao resultado = service.alugarFilme(usuario, filmes);
+//
+//		// verificacao
+//		// 4+4+3+2+1+0=14
+//		assertThat(resultado.getValor(), is(14.0));
+//
+//	}
 
 	@Test
 	public void deveDevolverNaSegundaCasoAlugarNoSabado() throws LocadoraException, FilmeSemEstoqueException {
