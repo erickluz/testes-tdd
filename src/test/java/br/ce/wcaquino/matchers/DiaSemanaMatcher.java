@@ -23,7 +23,6 @@ public class DiaSemanaMatcher extends TypeSafeMatcher<Date> {
 		return DataUtils.verificarDiaSemana(item, diaSemana);
 	}
 
-	@Override
 	public void describeTo(Description description) {
 		Calendar data = Calendar.getInstance();
 		data.set(Calendar.DAY_OF_WEEK, this.diaSemana);

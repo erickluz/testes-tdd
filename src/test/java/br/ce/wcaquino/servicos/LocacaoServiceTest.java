@@ -1,6 +1,5 @@
 package br.ce.wcaquino.servicos;
 
-import static br.ce.wcaquino.matchers.MatchersProprios.caiEm;
 import static br.ce.wcaquino.matchers.MatchersProprios.caiNumaSegunda;
 import static br.ce.wcaquino.utils.DataUtils.isMesmaData;
 import static br.ce.wcaquino.utils.DataUtils.obterDataComDiferencaDias;
@@ -24,6 +23,7 @@ import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
 
+import br.ce.wcaquino.builders.UsuarioBuilder;
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
@@ -66,8 +66,9 @@ public class LocacaoServiceTest {
 	@Test
 	public void deveAlugarFilmeComSucesso() throws Exception {
 		Assume.assumeFalse(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
+		
 		// cenario
-		Usuario usuario = new Usuario("Usuario 1");
+		Usuario usuario = UsuarioBuilder.umUsuario().agora();
 		Filme filme = new Filme("Filme 1", 1, 5.0);
 		Filme filme2 = new Filme("Filme 1", 1, 5.0);
 
