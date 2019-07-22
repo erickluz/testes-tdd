@@ -24,6 +24,8 @@ import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
 
 import br.ce.wcaquino.builders.UsuarioBuilder;
+import br.ce.wcaquino.dao.LocacaoDAO;
+import br.ce.wcaquino.dao.LocacaoDAOFake;
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
@@ -46,6 +48,8 @@ public class LocacaoServiceTest {
 	public void setup() {
 //		System.out.println("Before, contador:" + (i++));
 		service = new LocacaoService();
+		LocacaoDAO dao = new LocacaoDAOFake();
+		service.setLocacaoDAO(dao);
 	}
 
 	@After
@@ -251,7 +255,7 @@ public class LocacaoServiceTest {
 
 	@Test
 	public void deveDevolverNaSegundaCasoAlugarNoSabado() throws LocadoraException, FilmeSemEstoqueException {
-//		Assume.assumeTrue(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
+		Assume.assumeTrue(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
 		// scenario
 		Usuario usuario = new Usuario("usuario 1");
 		List<Filme> filmes = Arrays.asList(new Filme("filme1", 2, 4.0));
