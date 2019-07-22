@@ -5,6 +5,7 @@ import static br.ce.wcaquino.utils.DataUtils.isMesmaData;
 import static br.ce.wcaquino.utils.DataUtils.obterDataComDiferencaDias;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
@@ -22,10 +23,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
+import org.mockito.Mockito;
 
 import br.ce.wcaquino.builders.UsuarioBuilder;
 import br.ce.wcaquino.dao.LocacaoDAO;
-import br.ce.wcaquino.dao.LocacaoDAOFake;
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
@@ -36,7 +37,8 @@ import br.ce.wcaquino.utils.DataUtils;
 public class LocacaoServiceTest {
 
 	private LocacaoService service;
-//	private static Integer i = 0;
+	private SPCService spcService;
+	private LocacaoDAO dao; 
 
 	@Rule
 	public ErrorCollector error = new ErrorCollector();
@@ -47,9 +49,11 @@ public class LocacaoServiceTest {
 	@Before
 	public void setup() {
 //		System.out.println("Before, contador:" + (i++));
-		service = new LocacaoService();
-		LocacaoDAO dao = new LocacaoDAOFake();
+		service = new LocacaoService();		
+		dao = Mockito.mock(LocacaoDAO.class); 
 		service.setLocacaoDAO(dao);
+		spcService = Mockito.mock(SPCService.class);
+		service.setSpcService(spcService);
 	}
 
 	@After
@@ -269,4 +273,21 @@ public class LocacaoServiceTest {
 		
 	}
 
+	
+	@Test
+	public void naoDeveAlugarFilmeParaNegativadosSPC() {
+		Usuario usuario = UsuarioBuilder.umUsuario().agora();
+		List<Filme> filmes = Arrays.asList(new Filme("Filme 1", 2, 4.0));
+		
+		Mockito.when(spcService.possuiNegativacao(usuario)).thenReturn(true);
+		
+		try {
+			service.alugarFilme(usuario, filmes);
+			Assert.fail("Nao deveria estar positivado!");
+		}catch (Exception e) {
+			assertEquals("Usuario Negativado!", e.getMessage());
+		}
+		
+	}
+	
 }
