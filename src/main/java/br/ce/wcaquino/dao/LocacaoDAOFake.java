@@ -1,5 +1,7 @@
 package br.ce.wcaquino.dao;
 
+import java.util.List;
+
 import br.ce.wcaquino.entidades.Locacao;
 
 public class LocacaoDAOFake implements LocacaoDAO{
@@ -8,5 +10,9 @@ public class LocacaoDAOFake implements LocacaoDAO{
 		
 	}
 
+	public List<Locacao> obtertLocacoesPendentes() {
+		return null;
+	}
 	
+
 }

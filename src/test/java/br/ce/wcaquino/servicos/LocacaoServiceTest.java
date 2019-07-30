@@ -39,6 +39,7 @@ public class LocacaoServiceTest {
 	private LocacaoService service;
 	private SPCService spcService;
 	private LocacaoDAO dao; 
+	private EmailService emailService;
 
 	@Rule
 	public ErrorCollector error = new ErrorCollector();
@@ -54,6 +55,8 @@ public class LocacaoServiceTest {
 		service.setLocacaoDAO(dao);
 		spcService = Mockito.mock(SPCService.class);
 		service.setSpcService(spcService);
+		emailService = Mockito.mock(EmailService.class);
+		service.setEmailService(emailService);
 	}
 
 	@After
@@ -275,8 +278,11 @@ public class LocacaoServiceTest {
 
 	
 	@Test
-	public void naoDeveAlugarFilmeParaNegativadosSPC() {
+	public void naoDeveAlugarFilmeParaNegativadosSPC() throws FilmeSemEstoqueException {
 		Usuario usuario = UsuarioBuilder.umUsuario().agora();
+		Usuario usuario2 = UsuarioBuilder.umUsuario().agora();
+		usuario2.setNome("User 2");
+		
 		List<Filme> filmes = Arrays.asList(new Filme("Filme 1", 2, 4.0));
 		
 		Mockito.when(spcService.possuiNegativacao(usuario)).thenReturn(true);
@@ -284,9 +290,36 @@ public class LocacaoServiceTest {
 		try {
 			service.alugarFilme(usuario, filmes);
 			Assert.fail("Nao deveria estar positivado!");
-		}catch (Exception e) {
-			assertEquals("Usuario Negativado!", e.getMessage());
+		}catch (LocadoraException e) {
+			assertEquals(e.getMessage(), "Usuario Negativado!");
 		}
+		
+		Mockito.verify(spcService).possuiNegativacao(usuario);
+		
+	}
+	
+	@Test
+	public void deveEnviarEmailParaLocacaoAtrasadas() {
+		//cenario
+		Usuario usuario1 = new Usuario("usuario 1");
+		Usuario usuario2 = new Usuario("usuario 2");
+		Locacao locacao1 = new Locacao();
+		Locacao locacao2 = new Locacao();
+		locacao1.setDataRetorno(DataUtils.obterDataComDiferencaDias(-2));
+		locacao1.setUsuario(usuario1);
+		locacao2.setDataRetorno(DataUtils.obterDataComDiferencaDias(-2));
+		locacao2.setUsuario(usuario2);
+		
+		List<Locacao> locacoes = Arrays.asList(locacao1, locacao2);
+		
+		Mockito.when(dao.obtertLocacoesPendentes()).thenReturn(locacoes);
+		
+		//acao
+		service.notificarAtrasos();
+		
+		//verificacao
+		Mockito.verify(emailService).notificaAtraso(usuario1);
+		Mockito.verify(emailService).notificaAtraso(usuario2);
 		
 	}
 	
