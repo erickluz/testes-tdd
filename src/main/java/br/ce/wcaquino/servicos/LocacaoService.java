@@ -47,8 +47,6 @@ public class LocacaoService {
 		locacao.setUsuario(usuario);
 		locacao.setDataLocacao(new Date());
 
-		
-		
 		double valorFilme = 0;
 		for (int i=0; i<filmes.size();i++) {
 			valorFilme = filmes.get(i).getPrecoLocacao();
@@ -90,16 +88,16 @@ public class LocacaoService {
 	}
 	
 //	injecao de dependencia
-	public void setLocacaoDAO(LocacaoDAO dao) {
-		this.dao = dao;
-	}
-	
-	public void setSpcService(SPCService spcService) {
-		this.spcService = spcService;
-	}
-	
-	public void setEmailService(EmailService emailService) {
-		this.emailService = emailService;
-	}
+//	public void setLocacaoDAO(LocacaoDAO dao) {
+//		this.dao = dao;
+//	}
+//	
+//	public void setSpcService(SPCService spcService) {
+//		this.spcService = spcService;
+//	}
+//	
+//	public void setEmailService(EmailService emailService) {
+//		this.emailService = emailService;
+//	}
 	
 }

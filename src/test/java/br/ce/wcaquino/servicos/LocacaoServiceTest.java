@@ -23,7 +23,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import br.ce.wcaquino.builders.UsuarioBuilder;
 import br.ce.wcaquino.dao.LocacaoDAO;
@@ -35,10 +38,17 @@ import br.ce.wcaquino.exceptions.LocadoraException;
 import br.ce.wcaquino.utils.DataUtils;
 
 public class LocacaoServiceTest {
-
+	
+	@InjectMocks
 	private LocacaoService service;
+	
+	@Mock
 	private SPCService spcService;
-	private LocacaoDAO dao; 
+	
+	@Mock
+	private LocacaoDAO dao;
+	
+	@Mock
 	private EmailService emailService;
 
 	@Rule
@@ -49,14 +59,15 @@ public class LocacaoServiceTest {
 
 	@Before
 	public void setup() {
-//		System.out.println("Before, contador:" + (i++));
-		service = new LocacaoService();		
-		dao = Mockito.mock(LocacaoDAO.class); 
-		service.setLocacaoDAO(dao);
-		spcService = Mockito.mock(SPCService.class);
-		service.setSpcService(spcService);
-		emailService = Mockito.mock(EmailService.class);
-		service.setEmailService(emailService);
+		MockitoAnnotations.initMocks(this);
+////		System.out.println("Before, contador:" + (i++));
+//		service = new LocacaoService();		
+//		dao = Mockito.mock(LocacaoDAO.class); 
+//		service.setLocacaoDAO(dao);
+//		spcService = Mockito.mock(SPCService.class);
+//		service.setSpcService(spcService);
+//		emailService = Mockito.mock(EmailService.class);
+//		service.setEmailService(emailService);
 	}
 
 	@After
